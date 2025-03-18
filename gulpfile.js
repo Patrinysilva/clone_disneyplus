@@ -1,6 +1,7 @@
-//Essas variaveis exportam o Gulp e o sass
+//Essas variaveis exportam os plugins instalados
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
+const imagemin = require('gulp-imagemin');
 
 // 
 function styles(){
@@ -10,7 +11,15 @@ function styles(){
     // Essa funcion vai compilar o sass em um csse criar a pasta 
 }
 
-exports.default = styles;
+function images(){
+    return gulp.src('./src/images/**/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./dist/images'));
+    // Essa funcion vai minificar as imagens
+}
+// define tarefas a serem executadas
+exports.default = gulp.parallel(styles, images);
+
 exports.watch = function(){
     gulp.watch('./src/styles/*.scss',gulp.parallel(styles))
 }
